@@ -24,14 +24,22 @@
         (cdr (assoc :content (cdr (assoc :message (cadr (assoc :choices json-as-list))))))))))
 
 (defun completions (starter-text max-tokens)
-  (let* ((curl-command
+  (let* ((d
+          (cl-json:encode-json-to-string
+           `((:messages . (((:role . "user") (:content . ,starter-text))))
+             (:model . "mistral-small")
+             (:max_tokens . ,max-tokens))))
+         (curl-command
           (concatenate
            'string
            "curl " model-host
            " -H \"Content-Type: application/json\""
            " -H \"Authorization: Bearer " (uiop:getenv "MISTRAL_API_KEY") "\" " 
-           " -d '{\"messages\": [{\"role\": \"user\", \"content\": \"" starter-text "\"}], \"model\": \"mistral-small\", \"max_tokens\": "
-           (write-to-string max-tokens)  "}'")))
+           " -d '" d "'")))
+;;           " -d '{\"messages\": [{\"role\": \"user\", \"content\": \"" starter-text "\"}], \"model\": \"mistral-small\", \"max_tokens\": "
+;;           (write-to-string max-tokens)  "}'")))
+    (pprint d)
+    (princ curl-command)
     (mistral-helper curl-command)))
 
 (defun summarize (some-text max-tokens)
@@ -99,6 +107,6 @@
 
 (print (mistral:answer-question "Where were the 1992 Olympics held?" 60))
 (print (mistral:answer-question "Where is the Valley of Kings?" 60))
-(print (mistral:answer-question "Mary is 30 years old and Bob is 25. Who is older?" 60))
+(Print (mistral:answer-question "Mary is 30 years old and Bob is 25. Who is older?" 60))
 
 |#
