@@ -36,10 +36,6 @@
            " -H \"Content-Type: application/json\""
            " -H \"Authorization: Bearer " (uiop:getenv "MISTRAL_API_KEY") "\" " 
            " -d '" d "'")))
-;;           " -d '{\"messages\": [{\"role\": \"user\", \"content\": \"" starter-text "\"}], \"model\": \"mistral-small\", \"max_tokens\": "
-;;           (write-to-string max-tokens)  "}'")))
-    (pprint d)
-    (princ curl-command)
     (mistral-helper curl-command)))
 
 (defun summarize (some-text max-tokens)
