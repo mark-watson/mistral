@@ -4,7 +4,6 @@
 
 
 (defvar model-host "https://api.mistral.ai/v1/chat/completions")
-
 ;; Available models:
 ;;
 ;;   "mistral-tiny" powered by Mistral-7B-v0.2
@@ -54,7 +53,7 @@
           (concatenate
            'string
            "\nQ: " question-text "\nA:")))
-    (completions question-text max-tokens)))
+    (completions q-text max-tokens)))
 
 
 (defun embeddings (text)
